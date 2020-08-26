@@ -18,6 +18,7 @@ import Menu from '@material-ui/core/Menu'
 import ProTip from "../src/ProTip";
 import Copyright from "../src/Copyright";
 import Box from "@material-ui/core/Box";
+import {useRouter} from "next/router";
 
 const drawerWidth = 240;
 const ITEM_HEIGHT = 48;
@@ -70,7 +71,18 @@ interface Props {
     children: any;
 }
 
+const data = [
+    [
+        {name: "Home", route: "/", href: "/"},
+        {name: "FAQ", route: "/faq", href: "/faq"},
+        {name: "About", route: "/about", href: "/about"},
+    ]
+]
+
+
 export default function ResponsiveDrawer(props: Props) {
+    const router = useRouter();
+    const route = router.route;
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -99,31 +111,17 @@ export default function ResponsiveDrawer(props: Props) {
     const drawer = (
         <div>
             <div className={classes.toolbar}/>
-            <ListItem button key={"Home"} onClick={() => window.location.href = "/"}>
-                <ListItemText primary={"Home"}/>
-            </ListItem>
-            <ListItem button key={"FAQ"} onClick={() => window.location.href = "/faq"}>
-                <ListItemText primary={"FAQ"}/>
-            </ListItem>
-            <ListItem button key={"About"} onClick={() => window.location.href = "/about"}>
-                <ListItemText primary={"About"}/>
-            </ListItem>
-            <Divider/>
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemText primary={text}/>
-                    </ListItem>
-                ))}
-            </List>
-            <Divider/>
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemText primary={text}/>
-                    </ListItem>
-                ))}
-            </List>
+            {data.map((listOfItem, listIdx) => (
+                <div>
+                    {listOfItem.map((item, idx) => (
+                        <ListItem button key={item.name} selected={route == item.href}
+                                  onClick={() => window.location.href = item.href}>
+                            <ListItemText primary={item.name}/>
+                        </ListItem>
+                    ))}
+                    <Divider/>
+                </div>
+            ))}
         </div>
     );
 
@@ -147,6 +145,7 @@ export default function ResponsiveDrawer(props: Props) {
                     </Typography>
                     {showNav ?
                         <div style={{display: "flex", flexWrap: "wrap"}}>
+                            <Button color="inherit" href={"https://groupme.com/join_group/61329275/IdKHkPJT"}>GroupMe</Button>
                             <Button color="inherit" href={"https://piazza.com/class/kdovsnn7adz4ms"}>Piazza</Button>
                             <Button color="inherit"
                                     href={"https://purdue.brightspace.com/d2l/home/54147"}>BrightSpace</Button>
@@ -175,6 +174,11 @@ export default function ResponsiveDrawer(props: Props) {
                                     },
                                 }}
                             >
+                                <MenuItem key={"GroupMe"} onClick={() => {
+                                    window.location.href = "https://groupme.com/join_group/61329275/IdKHkPJT";
+                                }}>
+                                    {"GroupMe"}
+                                </MenuItem>
                                 <MenuItem key={"Piazza"} onClick={() => {
                                     window.location.href = "https://piazza.com/class/kdovsnn7adz4ms";
                                 }}>
@@ -226,7 +230,7 @@ export default function ResponsiveDrawer(props: Props) {
             <main className={classes.content}>
                 <div className={classes.toolbar}/>
                 {props.children}
-                <Copyright />
+                <Copyright/>
             </main>
         </div>
     );

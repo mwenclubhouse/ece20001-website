@@ -1,6 +1,7 @@
 import React from "react";
 import {Typography} from "@material-ui/core";
 import ResponsiveDrawer from "../components/layout";
+import Calendar from "../components/calendar";
 
 interface Props {
     window?: () => Window;
@@ -12,7 +13,7 @@ export default function IndexPage(props: Props) {
         <ResponsiveDrawer
             title={"ECE 20001"}
         >
-            <Typography>Hello There</Typography>
+            <Calendar/>
         </ResponsiveDrawer>
     )
 
