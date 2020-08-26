@@ -41,14 +41,8 @@ const rows = [
     },
 ];
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-    },
-});
 
 export default function About(props: Props) {
-    const classes = useStyles();
     return (
         <ResponsiveDrawer
             title={"About"}>
@@ -65,7 +59,7 @@ export default function About(props: Props) {
             <Typography variant={"h5"} style={styles.titleType}>Rules to Website</Typography>
             <Typography>I want to establish rules that this website will follow in order to protect the students who are taking this course; in addition, protect any sort of property of Purdue University.</Typography>
             <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
+                <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Rules</TableCell>

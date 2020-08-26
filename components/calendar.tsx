@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             flexGrow: 1,
-            minWidth: 700,
+            minWidth: 450,
             maxWidth: 1500,
             marginLeft: "auto",
             marginRight: "auto",
@@ -151,7 +151,7 @@ export default function Calendar(props: Props) {
     }
 
     const hour = (value, hour) => (
-        <Grid key={value.day + hour.h} spacing={0}>
+        <Grid key={value.day + hour.h}>
             {hour.h > 0 ?
                 <div className={classes.paper} style={value.day === "" ? null : styles.calendarBox}>
                     {value.day === "" ?
@@ -192,7 +192,7 @@ export default function Calendar(props: Props) {
     return (
         <Grid container className={classes.root} style={{width: "100%"}}>
             <Grid item xs={12}>
-                <Grid container style={{flex: 1}}>
+                <Grid container style={{flex: 1}} spacing={1}>
                     {data.map((value, i) => (
                         <div style={i != 0 ? {flex: 1} : {marginRight: 10}}>
                             <Grid key={value.day + "0"} style={{flex: 1, height: 30}}>
@@ -202,7 +202,7 @@ export default function Calendar(props: Props) {
                         </div>
                     ))}
                 </Grid>
-                <Typography align={"right"}>Green is a GTA, Orange is a UTA.</Typography>
+                <Typography align={"right"} style={{marginTop: 10}}>Green is a GTA, Orange is a UTA.</Typography>
             </Grid>
         </Grid>
     )
