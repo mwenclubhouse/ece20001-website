@@ -158,7 +158,7 @@ export default function Calendar(props: Props) {
                         <Typography align={"right"}>{hourString(hour.h)}</Typography> :
                         <div>
                             {hour.p.map((item, idx) => (
-                                <Typography align={"center"}>
+                                <Typography align={"center"} key={"TAOption" + idx}>
                                     <Link href="#"
                                           onClick={() => {
                                               const obj = ta[item];
@@ -194,7 +194,7 @@ export default function Calendar(props: Props) {
             <Grid item xs={12}>
                 <Grid container style={{flex: 1}} spacing={1}>
                     {data.map((value, i) => (
-                        <div style={i != 0 ? {flex: 1} : {marginRight: 10}}>
+                        <div key={"calendar-timestamp" + i} style={i != 0 ? {flex: 1} : {marginRight: 10}}>
                             <Grid key={value.day + "0"} style={{flex: 1, height: 30}}>
                                 <Typography align={"center"}>{value.day}</Typography>
                             </Grid>

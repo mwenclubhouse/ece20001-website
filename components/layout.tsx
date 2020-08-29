@@ -112,7 +112,7 @@ export default function ResponsiveDrawer(props: Props) {
         <div>
             <div className={classes.toolbar}/>
             {data.map((listOfItem, listIdx) => (
-                <div>
+                <div key={"drawer" + listIdx}>
                     {listOfItem.map((item, idx) => (
                         <ListItem button key={item.name} selected={route == item.href}
                                   onClick={() => window.location.href = item.href}>

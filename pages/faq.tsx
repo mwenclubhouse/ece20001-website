@@ -20,6 +20,7 @@ export default function faq(props: Props) {
         title={"FAQ"}>
             {data.map((item, index) => (
                 <Accordion
+                    key={"FAQ Option" + index}
                     defaultExpanded={true}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography variant={"h6"} style={{flex: 1}}>{item.title}</Typography>

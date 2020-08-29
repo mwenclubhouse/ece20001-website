@@ -1,13 +1,15 @@
 import React from "react";
-import {Typography} from "@material-ui/core";
 import ResponsiveDrawer from "../components/layout";
 import Calendar from "../components/calendar";
+import FirebaseInterface from "../firebase/FirebaseInterface";
 
 interface Props {
+    key: any,
     window?: () => Window;
 }
 
 export default function IndexPage(props: Props) {
+    const db = FirebaseInterface.database;
 
     return (
         <ResponsiveDrawer
