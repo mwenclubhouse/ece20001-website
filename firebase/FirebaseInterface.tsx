@@ -39,6 +39,12 @@ class FirebaseInterface {
         return FirebaseInterface.shared.database;
     }
 
+    static async getType() {
+        const database = FirebaseInterface.shared.database;
+        const type = await database.ref("type").once("value");
+        return type.val();
+    }
+
 }
 FirebaseInterface.shared = new FirebaseInterface();
 export default FirebaseInterface

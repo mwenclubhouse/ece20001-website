@@ -9,11 +9,14 @@ interface Props {
 }
 
 export default function IndexPage(props: Props) {
-    const db = FirebaseInterface.database;
+    const [type, setType] = React.useState("prod");
+    FirebaseInterface.getType().then((result: string) => {
+        setType(result);
+    })
 
     return (
         <ResponsiveDrawer
-            title={"ECE 20001"}
+            title={type === "prod" ? "Fall 2020 ECE 20001": type === "dev" ? "Dev Fall 2020 ECE 20001": "Unknown"}
         >
             <Calendar/>
         </ResponsiveDrawer>

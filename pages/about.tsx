@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import ResponsiveDrawer from "../components/layout";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import {makeStyles} from "@material-ui/styles";
+import FirebaseInterface from "../firebase/FirebaseInterface";
 interface Props {}
 
 const styles = {
