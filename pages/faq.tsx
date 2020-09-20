@@ -1,7 +1,8 @@
-import ResponsiveDrawer from "../components/layout";
+import ResponsiveDrawer from "../components/DefaultLayout";
 import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React from "react";
+import Head from "next/head";
 
 interface Props {}
 
@@ -17,19 +18,26 @@ const data = [
 export default function faq(props: Props) {
     return (
         <ResponsiveDrawer
-        title={"FAQ"}>
-            {data.map((item, index) => (
-                <Accordion
-                    key={"FAQ Option" + index}
-                    defaultExpanded={true}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant={"h6"} style={{flex: 1}}>{item.title}</Typography>
-                    </AccordionSummary>
-                <AccordionDetails>
-                    <Typography>{item.body}</Typography>
-                </AccordionDetails>
-            </Accordion>
-            ))}
+            route={"/faq"}
+            title={"FAQ"}>
+            <Head>
+                <title>ECE 20001: FAQ</title>
+                <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+            </Head>
+            <div style={{maxWidth: 1080, marginLeft: "auto", marginRight: "auto"}}>
+                {data.map((item, index) => (
+                    <Accordion
+                        key={"FAQ Option" + index}
+                        defaultExpanded={true}>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant={"h6"} style={{flex: 1}}>{item.title}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>{item.body}</Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                ))}
+            </div>
         </ResponsiveDrawer>
     );
 }

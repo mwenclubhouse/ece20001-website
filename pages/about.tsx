@@ -1,10 +1,11 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import ResponsiveDrawer from "../components/layout";
+import ResponsiveDrawer from "../components/DefaultLayout";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
-import {makeStyles} from "@material-ui/styles";
-import FirebaseInterface from "../firebase/FirebaseInterface";
-interface Props {}
+import Head from "next/head";
+
+interface Props {
+}
 
 const styles = {
     titleType: {
@@ -46,42 +47,57 @@ const rows = [
 export default function About(props: Props) {
     return (
         <ResponsiveDrawer
+            route={"/about"}
             title={"About"}>
-            <Typography variant={"h5"} style={{marginBottom: 5}}>The Developer</Typography>
-            <Typography>
-                The Developer for this website is <a href={"https://www.matthewwen.com"}>me (Matthew Wen).</a> This is my second time being a UTA for this class. This website have no affiliation with Purdue University because Purdue did not ask for this website to become developed. This is rather a tool that students can use to quickly access notes from my WebEx meetings, notes from BrightSpace, or WebEx meetings hosted by TAs.
-            </Typography>
+            <Head>
+                <title>ECE 20001: About</title>
+                <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
+            </Head>
+            <div style={{marginLeft: "auto", marginRight: "auto", maxWidth: 1080}}>
+                <Typography variant={"h5"} style={{marginBottom: 5}}>The Developer</Typography>
+                <Typography>
+                    The Developer for this website is <a href={"https://www.matthewwen.com"}>me (Matthew Wen).</a> This
+                    is my second time being a UTA for this class. This website have no affiliation with Purdue
+                    University because Purdue did not ask for this website to become developed. This is rather a tool
+                    that students can use to quickly access notes from my WebEx meetings, notes from BrightSpace, or
+                    WebEx meetings hosted by TAs.
+                </Typography>
 
-            <Typography variant={"h5"} style={styles.titleType}>The Source Code</Typography>
-            <Typography>
-                This website utilizes <a href={"https://nextjs.org/"}>Next.JS</a> + <a href={"https://reactjs.org/"}>React (from Facebook)</a>. Major companies like Netflix, Hulu, and TikTok use this framework, so I definitely recommend checking it out. Here is the <a href={"https://github.com/mwenclubhouse/ece20001-website"}>github repository</a> if you want to check it out locally.
-            </Typography>
+                <Typography variant={"h5"} style={styles.titleType}>The Source Code</Typography>
+                <Typography>
+                    This website utilizes <a href={"https://nextjs.org/"}>Next.JS</a> + <a
+                    href={"https://reactjs.org/"}>React (from Facebook)</a>. Major companies like Netflix, Hulu, and
+                    TikTok use this framework, so I definitely recommend checking it out. Here is the <a
+                    href={"https://github.com/mwenclubhouse/ece20001-website"}>github repository</a> if you want to
+                    check it out locally.
+                </Typography>
 
-            <Typography variant={"h5"} style={styles.titleType}>Rules to Website</Typography>
-            <Typography>I want to establish rules that this website will follow in order to protect the students who are taking this course; in addition, protect any sort of property of Purdue University.</Typography>
-            <TableContainer component={Paper}>
-                <Table aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Rules</TableCell>
-                            <TableCell align="left">Description</TableCell>
-                            <TableCell align="right">Date Effective</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={row.title}>
-                                <TableCell component="th" scope="row">
-                                    {row.title}
-                                </TableCell>
-                                <TableCell align="left">{row.description}</TableCell>
-                                <TableCell align="right">{row.date}</TableCell>
+                <Typography variant={"h5"} style={styles.titleType}>Rules to Website</Typography>
+                <Typography>I want to establish rules that this website will follow in order to protect the students who
+                    are taking this course; in addition, protect any sort of property of Purdue University.</Typography>
+                <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Rules</TableCell>
+                                <TableCell align="left">Description</TableCell>
+                                <TableCell align="right">Date Effective</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row) => (
+                                <TableRow key={row.title}>
+                                    <TableCell component="th" scope="row">
+                                        {row.title}
+                                    </TableCell>
+                                    <TableCell align="left">{row.description}</TableCell>
+                                    <TableCell align="right">{row.date}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
         </ResponsiveDrawer>
     );
 }

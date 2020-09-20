@@ -2,7 +2,7 @@ import React from "react";
 import {createStyles, Link, Theme, Typography} from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from "@material-ui/styles";
-import ResponsiveDrawer from "./layout";
+import ResponsiveDrawer from "./DefaultLayout";
 
 interface Props {
 }

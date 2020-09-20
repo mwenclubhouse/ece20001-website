@@ -19,6 +19,8 @@ import ProTip from "../src/ProTip";
 import Copyright from "../src/Copyright";
 import Box from "@material-ui/core/Box";
 import {useRouter} from "next/router";
+import FirebaseInterface from "../firebase/FirebaseInterface";
+import Link from "next/link";
 
 const drawerWidth = 240;
 const ITEM_HEIGHT = 48;
@@ -69,25 +71,32 @@ interface Props {
     window?: () => Window;
     title: string;
     children: any;
+    route: string;
 }
 
-const data = [
-    [
-        {name: "Home", route: "/", href: "/"},
-        {name: "FAQ", route: "/faq", href: "/faq"},
-        {name: "About", route: "/about", href: "/about"},
+function getLink(name, route, href, paddingLeft) {
+    return {name: name, route: route, href: href, paddingLeft: paddingLeft};
+}
+
+function getDefaultNav() {
+    return [
+        [
+            {name: "Home", route: "/", href: "/", paddingLeft: 0},
+            {name: "FAQ", route: "/faq", href: "/faq", paddingLeft: 0},
+            {name: "About", route: "/about", href: "/about", paddingLeft: 0},
+        ]
     ]
-]
+}
 
 
 export default function ResponsiveDrawer(props: Props) {
-    const router = useRouter();
-    const route = router.route;
+    const {route} = props;
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [showNav, setShowNav] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [sideNav, setSideNav] = React.useState([]);
     const open = Boolean(anchorEl);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -108,16 +117,33 @@ export default function ResponsiveDrawer(props: Props) {
         window.addEventListener('resize', () => setShowNav(window.innerWidth > threshold));
     }, []);
 
+    FirebaseInterface.getLectures().then((data) => {
+        let newSideNav = getDefaultNav();
+        for (let key in data.lectures) {
+            let weekItem = data.lectures[key];
+            let route = "/lessons/" + key;
+            let items = [getLink(weekItem.ref, route, route, 0)]
+            for (let lesson in weekItem.Lessons) {
+                let pageRef = route + "#" + weekItem.Lessons[lesson];
+                items.push(getLink(lesson, pageRef, pageRef, 20));
+            }
+            newSideNav.push(items)
+        }
+        setSideNav(newSideNav);
+    });
+
     const drawer = (
         <div>
             <div className={classes.toolbar}/>
-            {data.map((listOfItem, listIdx) => (
+            {sideNav.map((listOfItem, listIdx) => (
                 <div key={"drawer" + listIdx}>
                     {listOfItem.map((item, idx) => (
-                        <ListItem button key={item.name} selected={route == item.href}
-                                  onClick={() => window.location.href = item.href}>
-                            <ListItemText primary={item.name}/>
-                        </ListItem>
+                        <Link href={item.href}>
+                            <ListItem button key={item.name} selected={route == item.href}>
+                                <ListItemText primary={item.name} style={{paddingLeft: item.paddingLeft}}>
+                                </ListItemText>
+                            </ListItem>
+                        </Link>
                     ))}
                     <Divider/>
                 </div>

@@ -27,12 +27,24 @@ class FirebaseInterface {
         return firebase.firestore();
     }
 
+    get storage() {
+        return firebase.storage();
+    }
+
     static get firestore() {
         return FirebaseInterface.shared.firestore;
     }
 
+    static get storage() {
+        return FirebaseInterface.shared.storage;
+    }
+
     get database() {
         return firebase.database();
+    }
+
+    get db() {
+        return firebase.firestore()
     }
 
     static get database() {
@@ -44,6 +56,24 @@ class FirebaseInterface {
         const type = await database.ref("type").once("value");
         return type.val();
     }
+
+    static async getLectures() {
+        const database = FirebaseInterface.shared.database;
+        const type = await database.ref("ece20001").once("value");
+        return type.val();
+    }
+
+    static async getRouteUid(ref) {
+        const database = FirebaseInterface.shared.database;
+        const type = await database.ref("ece20001/lectures/" + ref).once("value");
+        return type.val();
+    }
+
+    static async getImageFromRef(ref) {
+        const storage = FirebaseInterface.shared.storage;
+        return await storage.ref(ref).getDownloadURL();
+    }
+
 
 }
 FirebaseInterface.shared = new FirebaseInterface();
