@@ -130,6 +130,9 @@ export default function ResponsiveDrawer(props: Props) {
             newSideNav.push(items)
         }
         setSideNav(newSideNav);
+    }).catch((e) => {
+        let newSideNav = getDefaultNav();
+        setSideNav(newSideNav);
     });
 
     const drawer = (
