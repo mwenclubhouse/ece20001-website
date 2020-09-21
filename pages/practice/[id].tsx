@@ -1,47 +1,17 @@
 import ResponsiveDrawer from "../../components/DefaultLayout";
-import React, {useEffect} from "react";
-import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@material-ui/core";
+import React from "react";
 import Head from "next/head";
 import FirebaseInterface from "../../firebase/FirebaseInterface";
 import FirebaseLessons from "../../firebase/FirebaseLessons";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {Image} from "@material-ui/icons";
-import ReactCardFlip from 'react-card-flip';
 import Problem from "../../components/problem";
+import {useRouter} from "next/router";
 
-interface Prop {
-    route: string;
-}
-
-export async function getStaticProps({params}) {
-    return {
-        props: {
-            route: "/practice/" + params.id,
-        }
-    }
-}
-
-export async function getStaticPaths() {
-    let data = await FirebaseInterface.getSideNavigation();
-    const paths = []
-    if (data != null && "sideNavigation" in data) {
-        const sideNav = data["sideNavigation"];
-        if ("practice" in sideNav) {
-            for (let key in sideNav.practice) {
-                paths.push("/practice/" + key)
-            }
-        }
-    }
-    return {
-        paths,
-        fallback: false
-    }
-}
-
-export default function Lesson(props: Prop) {
+export default function Lesson() {
     const [title, setTitle] = React.useState("");
     const [problems, setProblems] = React.useState([]);
-    const {route} = props;
+    const router = useRouter();
+    const {id} = router.query
+    const route = "/practice/" + id;
     const loadingData = async () => {
         const uidResponse = await FirebaseInterface.getRouteUid(route);
         if (uidResponse == null) {
