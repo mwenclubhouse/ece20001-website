@@ -74,8 +74,8 @@ interface Props {
     route: string;
 }
 
-function getLink(name, route, href, paddingLeft) {
-    return {name: name, route: route, href: href, paddingLeft: paddingLeft};
+function getLink(name, route, href, paddingLeft, needRefresh=false) {
+    return {name: name, route: route, href: href, paddingLeft: paddingLeft, needRefresh: needRefresh};
 }
 
 function getDefaultNav() {
@@ -126,7 +126,7 @@ export default function ResponsiveDrawer(props: Props) {
                 for (let key in sideNav.practice) {
                     let weekItem = sideNav.practice[key];
                     let route = "/practice/" + key;
-                    practiceList.push(getLink(weekItem.ref, route, route, 0))
+                    practiceList.push(getLink(weekItem.ref, route, route, 0, true))
                 }
             }
             newSideNav.push(practiceList);
@@ -143,12 +143,20 @@ export default function ResponsiveDrawer(props: Props) {
             {sideNav.map((listOfItem, listIdx) => (
                 <div key={"drawer" + listIdx}>
                     {listOfItem.map((item, idx) => (
-                        <Link href={item.href}>
-                            <ListItem button key={item.name} selected={route == item.href}>
-                                <ListItemText primary={item.name} style={{paddingLeft: item.paddingLeft}}>
-                                </ListItemText>
-                            </ListItem>
-                        </Link>
+                        !item.needRefresh ?
+                            <Link href={item.href}>
+                                <ListItem button key={item.name} selected={route == item.href}>
+                                    <ListItemText primary={item.name} style={{paddingLeft: item.paddingLeft}}>
+                                    </ListItemText>
+                                </ListItem>
+                            </Link>
+                            :
+                            <div onClick={() => {window.location = item.href}}>
+                                <ListItem button key={item.name} selected={route == item.href}>
+                                    <ListItemText primary={item.name} style={{paddingLeft: item.paddingLeft}}>
+                                    </ListItemText>
+                                </ListItem>
+                            </div>
                     ))}
                     <Divider/>
                 </div>
