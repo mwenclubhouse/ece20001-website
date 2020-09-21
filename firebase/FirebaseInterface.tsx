@@ -57,7 +57,7 @@ class FirebaseInterface {
         return type.val();
     }
 
-    static async getLectures() {
+    static async getSideNavigation() {
         const database = FirebaseInterface.shared.database;
         const type = await database.ref("ece20001").once("value");
         return type.val();
@@ -65,7 +65,7 @@ class FirebaseInterface {
 
     static async getRouteUid(ref) {
         const database = FirebaseInterface.shared.database;
-        const type = await database.ref("ece20001/lectures/" + ref).once("value");
+        const type = await database.ref("ece20001/sideNavigation" + ref).once("value");
         return type.val();
     }
 

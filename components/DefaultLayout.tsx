@@ -117,17 +117,19 @@ export default function ResponsiveDrawer(props: Props) {
         window.addEventListener('resize', () => setShowNav(window.innerWidth > threshold));
     }, []);
 
-    FirebaseInterface.getLectures().then((data) => {
+    FirebaseInterface.getSideNavigation().then((data) => {
         let newSideNav = getDefaultNav();
-        for (let key in data.lectures) {
-            let weekItem = data.lectures[key];
-            let route = "/lessons/" + key;
-            let items = [getLink(weekItem.ref, route, route, 0)]
-            for (let lesson in weekItem.Lessons) {
-                let pageRef = route + "#" + weekItem.Lessons[lesson];
-                items.push(getLink(lesson, pageRef, pageRef, 20));
+        if (data != null && "sideNavigation" in data) {
+            const sideNav = data["sideNavigation"];
+            let practiceList = []
+            if ("practice" in sideNav) {
+                for (let key in sideNav.practice) {
+                    let weekItem = sideNav.practice[key];
+                    let route = "/practice/" + key;
+                    practiceList.push(getLink(weekItem.ref, route, route, 0))
+                }
             }
-            newSideNav.push(items)
+            newSideNav.push(practiceList);
         }
         setSideNav(newSideNav);
     }).catch((e) => {

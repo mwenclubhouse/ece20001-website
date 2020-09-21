@@ -13,6 +13,9 @@ export default class FirebaseLessons{
     constructor(ref, data) {
         this.ref = ref;
         this.isFlipped = false;
+        if (data == null) {
+            return;
+        }
         if ("Title" in data) {
             this.title = data["Title"]
         }
@@ -36,8 +39,9 @@ export default class FirebaseLessons{
     }
 
     static async loadLessonByUid(ref) {
-        const response = await FirebaseLessons.getLessonByUid(ref);
-        return new FirebaseLessons(ref, response.data());
+        const response = await FirebaseLessons.getPracticeByUid(ref);
+        const data     = response == null ? null: response.data();
+        return new FirebaseLessons(ref, data);
     }
 
     static async getPageByUid(uid) {
@@ -45,9 +49,9 @@ export default class FirebaseLessons{
         return await db.collection("ece20001\\pages").doc(uid).get();
     }
 
-    static async getLessonByUid(uid) {
+    static async getPracticeByUid(uid) {
         const db = FirebaseInterface.shared.db;
-        return await db.collection("ece20001\\lessons").doc(uid).get();
+        return await db.collection("ece20001\\practice").doc(uid).get();
     }
 
     static async getFirebasePicture(ref) {

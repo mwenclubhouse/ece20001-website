@@ -11,24 +11,25 @@ import Problem from "../../components/problem";
 
 interface Prop {
     route: string;
-    id: string;
 }
 
 export async function getStaticProps({params}) {
     return {
         props: {
-            route: "/lessons/" + params.id,
-            id: params.id
+            route: "/practice/" + params.id,
         }
     }
 }
 
 export async function getStaticPaths() {
-    let data = await FirebaseInterface.getLectures();
+    let data = await FirebaseInterface.getSideNavigation();
     const paths = []
-    if (data != null && "lectures" in data) {
-        for (let key in data.lectures) {
-            paths.push("/lessons/" + key)
+    if (data != null && "sideNavigation" in data) {
+        const sideNav = data["sideNavigation"];
+        if ("practice" in sideNav) {
+            for (let key in sideNav.practice) {
+                paths.push("/practice/" + key)
+            }
         }
     }
     return {
@@ -40,9 +41,9 @@ export async function getStaticPaths() {
 export default function Lesson(props: Prop) {
     const [title, setTitle] = React.useState("");
     const [problems, setProblems] = React.useState([]);
-    const {route, id} = props;
+    const {route} = props;
     const loadingData = async () => {
-        const uidResponse = await FirebaseInterface.getRouteUid(id);
+        const uidResponse = await FirebaseInterface.getRouteUid(route);
         if (uidResponse == null) {
             return
         }
@@ -51,7 +52,7 @@ export default function Lesson(props: Prop) {
         setTitle(attributes["Title"])
         if (problems.length == 0) {
             let items = [];
-            for (let i of attributes["lessons"]) {
+            for (let i of attributes["practice"]) {
                 let lesson = await FirebaseLessons.loadLessonByUid(i);
                 items.push(lesson);
             }
